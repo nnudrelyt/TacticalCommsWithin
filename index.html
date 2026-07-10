@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TCW — Single-Page Wireframe v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Stand-ins for the Strata Performance faces: Archivo ≈ Aktiv Grotesk (display), Inter ≈ Bio Sans (body).
+     Swap for the licensed Aktiv Grotesk + Bio Sans web kits in final build. -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ VISUAL SYSTEM — warm off-white + acid-lime ============ */
+:root {
+  --bg:      #F5F1E8;                    /* warm off-white page */
+  --bg-2:    #EDE6D6;                    /* alt/section band */
+  --panel:   #FFFFFF;                    /* cards & panels */
+  --line:    rgba(25,23,18,0.12);        /* hairline borders on light */
+  --ink:     #191712;                    /* headings — warm near-black */
+  --cream:   #191712;                    /* dark text (reused where light text was) */
+  --body:    #4a453b;                    /* body text */
+  --mute:    #8a8275;                    /* muted */
+  --accent:  #EAFD62;                    /* signature acid-lime (use as fills) */
+  --accent-ink: #191712;                 /* text on accent */
+  --olive:   #59662c;                    /* small-text accent — lime is low-contrast on cream */
+  --focus:   #59662c;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; background: var(--bg); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  font-family: "Hanken Grotesk", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  color: var(--body);
+  background: var(--bg);
+  line-height: 1.6;
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3 {
+  font-family: "Archivo", "Hanken Grotesk", sans-serif;
+  color: var(--ink);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+h1 { font-size: clamp(2.8rem, 8vw, 7rem); font-weight: 800; letter-spacing: -0.035em; text-transform: uppercase; }
+h2 { font-size: clamp(1.5rem, 3.6vw, 2.3rem); font-weight: 700; margin-bottom: 12px; letter-spacing: -0.025em; }
+h3 { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.01em; }
+p { max-width: 62ch; }
+a { color: var(--ink); }
+img { max-width: 100%; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+section { padding: 60px 0; border-bottom: 1px solid var(--line); }
+.eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: 14px;
+}
+
+/* buttons */
+.btn {
+  display: inline-block;
+  padding: 15px 26px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-radius: 2px;
+  border: 1.5px solid var(--line);
+  text-align: center;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { transform: translateY(-1px); background: #f2ff85; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: rgba(0,0,0,0.28); }
+.btn.ghost:hover { border-color: var(--olive); color: var(--olive); }
+.btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible {
+  outline: 3px solid var(--focus); outline-offset: 2px;
+}
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+
+/* placeholders */
+.ph {
+  background: var(--panel);
+  border: 1.5px dashed rgba(0,0,0,0.18);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mute);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px;
+}
+
+/* ============ STICKY HEADER ============ */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(245,241,232,0.85);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.logo-ph {
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  color: var(--ink);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1.5px dashed rgba(0,0,0,0.2);
+  padding: 8px 12px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.nav-links { display: none; gap: 24px; list-style: none; }
+.nav-links a { text-decoration: none; font-size: 0.85rem; font-weight: 600; color: var(--body); letter-spacing: 0.02em; transition: color 0.15s ease; }
+.nav-links a:hover { color: var(--olive); }
+.nav .btn { padding: 11px 20px; font-size: 0.82rem; }
+@media (min-width: 860px) { .nav-links { display: flex; } }
+
+/* ============ HERO ============ */
+.hero { padding: 84px 0 72px; }
+.hero-grid { display: grid; gap: 40px; }
+@media (min-width: 860px) { .hero-grid { grid-template-columns: 7fr 5fr; align-items: center; } }
+.hero .sub { margin-top: 22px; font-size: 1.12rem; color: var(--body); }
+.hero-img { min-height: 260px; width: 100%; object-fit: cover; border-radius: 6px; display: block; }
+@media (min-width: 860px) { .hero-img { min-height: 360px; } }
+
+/* audience strip — looping marquee + secondary-workplace bridge */
+.audience {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.audience-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.audience .label-fixed { flex: none; color: var(--olive); }
+.marquee {
+  flex: 1;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: tickerScroll 26s linear infinite;
+  will-change: transform;
+}
+.marquee .set { display: flex; gap: 34px; padding-right: 34px; white-space: nowrap; color: var(--cream); }
+.marquee .set span::after { content: "·"; margin-left: 34px; color: var(--mute); }
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.audience-bridge {
+  margin-top: 14px;
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--mute);
+  max-width: 74ch;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; flex-wrap: wrap; width: auto; }
+  .marquee { -webkit-mask-image: none; mask-image: none; }
+  .marquee .set[aria-hidden="true"] { display: none; }
+  .marquee .set { white-space: normal; flex-wrap: wrap; gap: 8px 22px; }
+}
+
+/* ============ OBJECTION ============ */
+.objection { background: var(--bg-2); }
+.objection h2 { color: var(--ink); font-size: clamp(1.7rem, 4vw, 2.6rem); }
+.objection p { color: var(--body); margin-top: 16px; }
+
+/* ============ OUTCOMES ============ */
+.cards { display: grid; gap: 16px; margin-top: 30px; }
+@media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .cards.four { grid-template-columns: repeat(4, 1fr); } }
+.card {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 24px;
+  background: var(--panel);
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+.card:hover { border-color: rgba(234,253,98,0.5); transform: translateY(-2px); }
+.card .ph {
+  height: 44px; width: 44px; margin-bottom: 16px; font-size: 0.55rem;
+  background: rgba(234,253,98,0.1); border: 1px solid rgba(234,253,98,0.4); color: var(--accent);
+}
+.card h3 { color: var(--ink); }
+.card p { font-size: 0.92rem; margin-top: 8px; color: var(--body); }
+
+/* ============ DRILL ============ */
+.drill-grid { display: grid; gap: 34px; margin-top: 8px; }
+@media (min-width: 860px) { .drill-grid { grid-template-columns: 1fr 1fr; align-items: center; } }
+.drill-steps { list-style: none; counter-reset: step; margin-top: 22px; }
+.drill-steps li {
+  counter-increment: step;
+  display: flex;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+  color: var(--body);
+}
+.drill-steps li::before {
+  content: counter(step);
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  min-width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+.drill-img { min-height: 230px; }
+
+/* ============ PATHS ============ */
+.paths { background: var(--bg-2); }
+.path-grid { display: grid; gap: 20px; margin-top: 30px; }
+@media (min-width: 860px) { .path-grid { grid-template-columns: 1fr 1fr; } }
+.path {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.path h3 { color: var(--ink); font-size: 1.25rem; }
+.path ul { padding-left: 20px; font-size: 0.95rem; color: var(--body); }
+.path li { margin-bottom: 7px; }
+.path li::marker { color: var(--accent); }
+.path .btn { margin-top: auto; }
+.path .tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--olive);
+}
+
+/* ============ FOUNDER ============ */
+.founder-grid { display: grid; gap: 36px; }
+@media (min-width: 860px) { .founder-grid { grid-template-columns: 4fr 7fr; align-items: center; } }
+.founder-img { min-height: 300px; }
+.cred { list-style: none; margin-top: 20px; }
+.cred li { display: flex; gap: 12px; padding: 9px 0; font-size: 0.97rem; align-items: baseline; color: var(--body); }
+.cred li::before { content: "■"; font-size: 0.6rem; color: var(--olive); }
+
+/* ============ EVIDENCE ============ */
+.evidence .card { margin-top: 0; }
+.evidence .cards { grid-template-columns: 1fr; }
+@media (min-width: 860px) { .evidence .cards { grid-template-columns: 1fr 1fr; } }
+.evidence cite { font-size: 0.82rem; color: var(--mute); font-style: normal; display: block; margin-top: 12px; }
+
+/* ============ TESTIMONIALS ============ */
+.quotes { display: grid; gap: 20px; margin-top: 30px; }
+@media (min-width: 860px) { .quotes { grid-template-columns: 1fr 1fr; } }
+blockquote {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 26px;
+  font-size: 1.02rem;
+  color: var(--cream);
+  background: var(--panel);
+}
+blockquote footer { margin-top: 16px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+
+/* ============ CONTACT ============ */
+.contact { background: var(--bg-2); border-bottom: 0; }
+.contact h2 { color: var(--ink); }
+.contact p { color: var(--body); }
+.contact-grid { display: grid; gap: 44px; margin-top: 34px; }
+@media (min-width: 860px) { .contact-grid { grid-template-columns: 7fr 5fr; } }
+form { display: grid; gap: 18px; }
+label { font-size: 0.82rem; font-weight: 700; color: var(--ink); display: block; margin-bottom: 7px; letter-spacing: 0.02em; }
+input, select, textarea {
+  width: 100%;
+  padding: 14px 15px;
+  font-size: 1rem;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+.contact .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.alt-contact { border: 1px dashed var(--line); border-radius: 6px; padding: 26px; background: var(--panel); }
+.alt-contact h3 { color: var(--ink); margin-bottom: 8px; }
+.alt-contact a { color: var(--olive); font-weight: 700; }
+.alt-contact .ph { margin-top: 20px; min-height: 160px; background: var(--bg); border-color: var(--line); }
+
+footer.site {
+  background: var(--bg);
+  color: var(--mute);
+  font-size: 0.82rem;
+  padding: 30px 0 44px;
+  border-top: 1px solid var(--line);
+}
+footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; }
+
+/* ============ SCROLL-REVEAL INTRO (beat sequence) ============ */
+.intro-reveal {
+  position: relative;
+  height: 680vh;
+  margin-bottom: -100vh; /* lets the wire sit beneath the sticky panel for the crossfade */
+  background: transparent;
+  padding: 0;
+  border-bottom: 0;
+}
+.intro-sticky {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  z-index: 70; /* above sticky header while opaque */
+  background: var(--bg);
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+.intro-sticky.out { opacity: 0; }
+.beat {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  padding: 0 6vw;
+  will-change: opacity, transform;
+}
+.beat .b-inner { max-width: 1200px; }
+.beat p:not(.intro-eyebrow) {
+  font-family: "Archivo", "Hanken Grotesk", sans-serif;
+  font-size: clamp(2.6rem, 7.5vw, 6.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  max-width: none;
+  text-transform: uppercase;
+}
+.beat .w { opacity: 0.12; display: inline-block; margin-right: 0.28em; }
+.intro-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.intro-hint .arrow {
+  display: block;
+  margin: 10px auto 0;
+  color: var(--olive);
+  animation: hintBounce 1.6s ease-in-out infinite;
+}
+@keyframes hintBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-reveal { height: auto; margin-bottom: 0; }
+  .intro-sticky { position: static; height: auto; opacity: 1 !important; }
+  .beat { position: static; opacity: 1 !important; transform: none !important; padding: 48px 6vw; }
+  .beat p { font-size: clamp(1.8rem, 5vw, 3.4rem); }
+  .beat .w { opacity: 1 !important; }
+  .intro-hint { display: none; }
+}
+
+/* ============ WIDE-SCREEN BREAKPOINTS ============ */
+@media (min-width: 1440px) {
+  html { font-size: 17.5px; }
+  .wrap, .nav { max-width: 1240px; }
+  section { padding: 76px 0; }
+  .hero { padding: 104px 0 88px; }
+  .hero-img { min-height: 440px; }
+  .founder-img { min-height: 380px; }
+  .drill-img { min-height: 290px; }
+}
+@media (min-width: 1920px) {
+  html { font-size: 19px; }
+  .wrap, .nav { max-width: 1440px; }
+  section { padding: 92px 0; }
+  .hero { padding: 120px 0 100px; }
+  .hero-img { min-height: 540px; }
+}
+</style>
+</head>
+<body>
+
+
+<!-- ============ SCROLL-REVEAL INTRO ============ -->
+<section class="intro-reveal" id="intro" aria-label="A note to first responders">
+  <div class="intro-sticky" id="introSticky">
+    <div class="beat"><div class="b-inner"><p>My Fellow First Responders, let's be honest about what is expected of us.</p></div></div>
+    <div class="beat"><div class="b-inner"><p>Make critical decisions under pressure. Remain calm in chaos.</p></div></div>
+    <div class="beat"><div class="b-inner"><p>Set aside our own challenges while helping others navigate theirs.</p></div></div>
+    <div class="beat"><div class="b-inner"><p>We are NOT broken. We are NOT defective. We are NOT weak.</p></div></div>
+    <div class="beat"><div class="b-inner"><p>This is NOT therapy. This IS training.</p></div></div>
+    <div class="beat"><div class="b-inner"><p>Science-informed. Experience-driven. Service-focused.</p></div></div>
+    <div class="intro-hint">Keep scrolling<svg class="arrow" aria-hidden="true" width="18" height="11" viewBox="0 0 18 11" fill="none"><path d="M1 1l8 8 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+</section>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <nav class="nav" aria-label="Primary">
+    <span class="logo-ph">TCW LOGO</span>
+    <ul class="nav-links">
+      <li><a href="#not-therapy">The Approach</a></li>
+      <li><a href="#outcomes">Outcomes</a></li>
+      <li><a href="#training">Training</a></li>
+      <li><a href="#about">About Kari</a></li>
+    </ul>
+    <a class="btn primary" href="#contact">Book a call</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Nervous-system training for first responders</span>
+        <h1 id="hero-h">Make the call.</h1>
+        <p class="sub">Tactical breathwork and nervous-system training for sharper decisions under pressure, real sleep, and a longer career. Built by the instructor behind a police-academy resilience curriculum that's still taught today.</p>
+        <div class="btn-row">
+          <a class="btn primary" href="#contact">Book an intro call</a>
+          <a class="btn ghost" href="#training">Training for departments ↓</a>
+        </div>
+      </div>
+      <img class="hero-img" src="images/hero-firefighter.jpg" alt="A firefighter sits in a sunlit fire-station apparatus bay, a fire engine behind him" />
+    </div>
+  </div>
+</section>
+
+<!-- ============ AUDIENCE STRIP (v1 marquee + v2 secondary-workplace bridge) ============ -->
+<div class="audience" role="group" aria-label="Who this is for">
+  <div class="wrap">
+    <div class="audience-row">
+      <span class="label-fixed">Built for:</span>
+      <div class="marquee">
+        <div class="marquee-track">
+          <div class="set">
+            <span>Law Enforcement</span><span>Fire</span><span>EMS</span><span>911 Dispatch</span><span>ER &amp; Hospital</span><span>Corrections</span>
+          </div>
+          <div class="set" aria-hidden="true">
+            <span>Law Enforcement</span><span>Fire</span><span>EMS</span><span>911 Dispatch</span><span>ER &amp; Hospital</span><span>Corrections</span>
+          </div>
+          <div class="set" aria-hidden="true">
+            <span>Law Enforcement</span><span>Fire</span><span>EMS</span><span>911 Dispatch</span><span>ER &amp; Hospital</span><span>Corrections</span>
+          </div>
+          <div class="set" aria-hidden="true">
+            <span>Law Enforcement</span><span>Fire</span><span>EMS</span><span>911 Dispatch</span><span>ER &amp; Hospital</span><span>Corrections</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="audience-bridge">Built first for first responders. Also brought into high-stress civilian workplaces: construction crews, healthcare teams, and leadership groups.</p>
+  </div>
+</div>
+
+<!-- ============ OBJECTION BLOCK ============ -->
+<section class="objection" id="not-therapy" aria-labelledby="obj-h">
+  <div class="wrap">
+    <span class="eyebrow">Read this first</span>
+    <h2 id="obj-h">Not therapy. Not a diagnosis.</h2>
+    <p>Scenario training isn't "real" either — it's a controlled environment where you build reps before the call comes. This is the same thing, for your nervous system. You're not broken. You have one under-trained system, and it's trainable: with reps, under load, measured by performance.</p>
+  </div>
+</section>
+
+<!-- ============ OUTCOMES ============ -->
+<section id="outcomes" aria-labelledby="out-h">
+  <div class="wrap">
+    <span class="eyebrow">Trained outcomes</span>
+    <h2 id="out-h">Sharper calls. Real sleep. A longer career.</h2>
+    <div class="cards four">
+      <div class="card"><span class="ph" aria-hidden="true">icon</span><h3>Make the right call under pressure</h3><p>Stay cognitively online during the worst call of the month — and the paperwork after.</p></div>
+      <div class="card"><span class="ph" aria-hidden="true">icon</span><h3>Actually sleep between tours</h3><p>Downshift on demand so the body recovers, even on rotating shifts.</p></div>
+      <div class="card"><span class="ph" aria-hidden="true">icon</span><h3>Keep control in conflict</h3><p>Own your escalation curve in confrontations on and off duty.</p></div>
+      <div class="card"><span class="ph" aria-hidden="true">icon</span><h3>Stay in the career longer</h3><p>Burnout prevention that keeps experienced people in the job past the decade mark.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE DRILL ============ -->
+<section aria-labelledby="drill-h">
+  <div class="wrap">
+    <div class="drill-grid">
+      <div>
+        <span class="eyebrow">Proof it's not mystical</span>
+        <h2 id="drill-h">Try one rep right now.</h2>
+        <ol class="drill-steps">
+          <li>Inhale through your nose for a count of 4.</li>
+          <li>Exhale slow through pursed lips for a count of 8.</li>
+          <li>Repeat five times. About 90 seconds.</li>
+        </ol>
+        <p style="margin-top:16px;">The count matters less than the long exhale: that's the switch that downshifts your nervous system. Now imagine having that switch drilled deep enough to work at 2 a.m. on a barricade call.</p>
+      </div>
+      <div class="ph drill-img">Diagram placeholder — simple breath-cycle graphic (4 in / 8 out), no lotus imagery</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICE PATHS ============ -->
+<section class="paths" id="training" aria-labelledby="paths-h">
+  <div class="wrap">
+    <span class="eyebrow">Two ways in</span>
+    <h2 id="paths-h">For your department. Or for you.</h2>
+    <div class="path-grid">
+      <div class="path">
+        <span class="tag">For departments, academies &amp; teams</span>
+        <h3>A unit that performs under pressure</h3>
+        <ul>
+          <li>Workshops tailored to your unit, shift structure, or crew</li>
+          <li>Academy blocks or workplace programs that fit existing training</li>
+          <li>6–10 week programs with outcomes tracking</li>
+        </ul>
+        <a class="btn primary" href="#contact" data-path="department">Request team training</a>
+      </div>
+      <div class="path">
+        <span class="tag">For individuals</span>
+        <h3>Your edge, trained on your schedule</h3>
+        <ul>
+          <li>Private, practical, and scheduled around your shifts</li>
+          <li>Coaching, not therapy: goals, reps, and measurable progress</li>
+          <li>Starts with a no-cost intro call</li>
+        </ul>
+        <a class="btn ghost" href="#contact" data-path="individual">Book an intro call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOUNDER ============ -->
+<section id="about" aria-labelledby="about-h">
+  <div class="wrap">
+    <div class="founder-grid">
+      <div class="ph founder-img">Photo placeholder — Kari teaching in academy/training context (not portrait-studio)</div>
+      <div>
+        <span class="eyebrow">Who's teaching this</span>
+        <h2 id="about-h">Built inside the academy. Not the studio.</h2>
+        <p>Kari Pennington built the breathwork and nervous-system curriculum for a police academy — training that's still being taught after she moved on. This work comes from inside first-responder culture, not from outside it.</p>
+        <ul class="cred">
+          <li>Police-academy resilience curriculum author (still in use today)</li>
+          <li>An officer used this training mid-critical-incident and made good decisions under fire (as reported by his therapist)</li>
+          <li>Trained across law enforcement, hospital, and high-stress service settings</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVIDENCE ============ -->
+<section class="evidence" aria-labelledby="ev-h">
+  <div class="wrap">
+    <span class="eyebrow">The research behind the method</span>
+    <h2 id="ev-h">Evidence you can hand your chief.</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Tactical Resilience Training for first responders</h3>
+        <p>A 6-week program packaging breathwork and yoga as workplace training, built that way because first responders avoid therapy-coded programs.</p>
+        <cite>JMIR Formative Research, 2023 — feasibility study, US firefighters, police, EMS &amp; dispatchers</cite>
+      </div>
+      <div class="card">
+        <h3>Breathing-based self-regulation for SWAT officers</h3>
+        <p>The foundational study: officers trained in breathing-based arousal control performed measurably better in critical-incident simulations.</p>
+        <cite>iPREP — Andersen et al., SAGE Open, 2015</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section aria-labelledby="quote-h">
+  <div class="wrap">
+    <span class="eyebrow">From the field</span>
+    <h2 id="quote-h">What responders say</h2>
+    <div class="quotes">
+      <blockquote>
+        <p>"[Testimonial placeholder — outcome-specific quote: sleep, a call handled, a habit that stuck.]"</p>
+        <footer>— Patrol Sergeant, suburban Chicago PD</footer>
+      </blockquote>
+      <blockquote>
+        <p>"[Testimonial placeholder — department/academy perspective: buy-in from skeptical shift, integration with training.]"</p>
+        <footer>— Training Coordinator, County Sheriff's Office</footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact" aria-labelledby="contact-h">
+  <div class="wrap">
+    <span class="eyebrow">Make contact</span>
+    <h2 id="contact-h">Bring it to your department. Or start yourself.</h2>
+    <p>Tell Kari what you're dealing with — she'll come back within one business day.</p>
+    <div class="contact-grid">
+      <form aria-label="Contact Kari">
+        <div>
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div>
+          <label for="f-contact">Email or phone</label>
+          <input id="f-contact" name="contact" type="text" autocomplete="email" required>
+        </div>
+        <div>
+          <label for="f-interest">I'm interested in</label>
+          <select id="f-interest" name="interest">
+            <option value="department">Department or academy training</option>
+            <option value="individual">Individual coaching</option>
+            <option value="workplace">Business / workplace training</option>
+            <option value="other">Something else</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-msg">Anything else? <span style="font-weight:400;color:var(--mute);">(optional)</span></label>
+          <textarea id="f-msg" name="message" rows="3"></textarea>
+        </div>
+        <button class="btn primary" type="submit">Send to Kari</button>
+      </form>
+      <div class="alt-contact">
+        <h3>Prefer to talk?</h3>
+        <p>Call or text directly: <a href="tel:+10000000000">(XXX) XXX-XXXX</a></p>
+        <p style="margin-top:10px;">Or grab time on the calendar:</p>
+        <div class="ph">Calendly embed placeholder — intro call booking</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Tactical Communications Within LLC</span>
+    <span>hello@tcwtraining.com (placeholder) · (XXX) XXX-XXXX</span>
+  </div>
+</footer>
+
+<script>
+// Scroll-reveal intro: beat sequence, then crossfade into the wire
+(function () {
+  var section = document.getElementById('intro');
+  var sticky = document.getElementById('introSticky');
+  if (!section || !sticky) return;
+  var beats = Array.prototype.slice.call(section.querySelectorAll('.beat'));
+
+  // wrap words in each beat
+  beats.forEach(function (b) {
+    var p = b.querySelector('p');
+    var words = p.textContent.trim().split(/\s+/);
+    p.textContent = '';
+    words.forEach(function (w) {
+      var s = document.createElement('span');
+      s.className = 'w';
+      s.textContent = w;
+      p.appendChild(s);
+    });
+  });
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var SEQ_END = 0.96;      // beats finish here; last beat holds to the end
+  var FADE_TRIGGER = 0.995; // site is aligned beneath — time-fade the panel out in place
+  var n = beats.length;
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var total = section.offsetHeight - window.innerHeight;
+    var p = Math.min(1, Math.max(0, -section.getBoundingClientRect().top / total));
+    var seq = Math.min(p / SEQ_END, 1);
+
+    beats.forEach(function (b, i) {
+      var start = i / n, width = 1 / n;
+      var t = (seq - start) / width;
+      var op = 0, ty = 40;
+      if (t >= 0 && t <= 1) {
+        var inT = i === 0 ? 1 : Math.min(t / 0.16, 1);
+        var outT = i === n - 1 ? 0 : Math.max(0, (t - 0.84) / 0.16);
+        op = inT * (1 - outT);
+        ty = (1 - inT) * 40 - outT * 40;
+        var spans = b.querySelectorAll('.w');
+        var m = spans.length;
+        for (var k = 0; k < m; k++) {
+          var ws = 0.08 + (k / m) * 0.42;
+          var wt = Math.min(1, Math.max(0, (t - ws) / (0.42 / m + 0.06)));
+          spans[k].style.opacity = (0.12 + 0.88 * wt).toFixed(3);
+        }
+      } else if (t > 1 && i === n - 1) {
+        op = 1; ty = 0;
+      }
+      b.style.opacity = op.toFixed(3);
+      b.style.transform = 'translateY(' + ty.toFixed(1) + 'px)';
+    });
+
+    // fade out in place: the wire is already resting beneath — dissolve, don't scrub
+    sticky.classList.toggle('out', p >= FADE_TRIGGER);
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+
+// Path buttons preselect the matching interest option in the contact form
+document.querySelectorAll('[data-path]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var sel = document.getElementById('f-interest');
+    if (sel) sel.value = btn.getAttribute('data-path');
+  });
+});
+// Wireframe only: block real submit
+document.querySelector('form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  alert('Wireframe — form not wired. Final build posts to intake + notifies Kari.');
+});
+</script>
+
+</body>
+</html>
