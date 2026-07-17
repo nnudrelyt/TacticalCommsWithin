@@ -812,11 +812,18 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
 // Calendly popup on scheduler CTAs — falls back to the href (new tab) if the widget has not loaded
 document.querySelectorAll('[data-calendly]').forEach(function (a) {
   a.addEventListener('click', function (e) {
+    if (window.gtag) gtag('event', 'book_click', { location: (a.textContent || '').trim() });
     if (window.Calendly && typeof Calendly.initPopupWidget === 'function') {
       e.preventDefault();
       Calendly.initPopupWidget({ url: a.getAttribute('href') });
     }
   });
+});
+// GA4 conversion: fires when a Calendly booking actually completes
+window.addEventListener('message', function (e) {
+  if (e.data && e.data.event === 'calendly.event_scheduled' && window.gtag) {
+    gtag('event', 'generate_lead', { method: 'calendly' });
+  }
 });
 </script>
 </body>

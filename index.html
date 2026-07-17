@@ -1142,6 +1142,7 @@ document.querySelectorAll('[data-path]').forEach(function (btn) {
       .then(function (r) { return r.json(); })
       .then(function (json) {
         if (!json.success) throw new Error(json.message || 'failed');
+        if (window.gtag) gtag('event', 'generate_lead', { method: 'contact_form' });
         form.innerHTML = '<p class="form-thanks">Thanks — your message is on its way to Kari. She’ll get back to you within one business day.</p>';
       })
       .catch(function () {
@@ -1157,11 +1158,18 @@ document.querySelectorAll('[data-path]').forEach(function (btn) {
 // Calendly popup on scheduler CTAs — falls back to the href (new tab) if the widget has not loaded
 document.querySelectorAll('[data-calendly]').forEach(function (a) {
   a.addEventListener('click', function (e) {
+    if (window.gtag) gtag('event', 'book_click', { location: (a.textContent || '').trim() });
     if (window.Calendly && typeof Calendly.initPopupWidget === 'function') {
       e.preventDefault();
       Calendly.initPopupWidget({ url: a.getAttribute('href') });
     }
   });
+});
+// GA4 conversion: fires when a Calendly booking actually completes
+window.addEventListener('message', function (e) {
+  if (e.data && e.data.event === 'calendly.event_scheduled' && window.gtag) {
+    gtag('event', 'generate_lead', { method: 'calendly' });
+  }
 });
 </script>
 
