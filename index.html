@@ -29,6 +29,9 @@
 <!-- Display: Archivo. Body: Hanken Grotesk. Both free stand-ins — swap for the
      licensed Aktiv Grotesk + Bio Sans web kits in the final build. -->
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Calendly popup widget -->
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <style>
 /* ============ VISUAL SYSTEM — warm off-white + acid-lime ============ */
 :root {
@@ -759,7 +762,7 @@ img.img-fade.loaded { opacity: 1; }
       <li><a href="#training">Training</a></li>
       <li><a href="about.html">About Kari</a></li>
     </ul>
-    <a class="btn primary" href="#contact">Get started</a>
+    <a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Get started</a>
   </nav>
 </header>
 
@@ -775,7 +778,7 @@ img.img-fade.loaded { opacity: 1; }
         <h1 id="hero-h">Make the call.</h1>
         <p class="sub">Breathwork and nervous-system regulation for sharper decisions under pressure, real sleep, and a longer career. Built by a first responder who understands the demands of the job.</p>
         <div class="btn-row">
-          <a class="btn primary" href="#contact">Book a call</a>
+          <a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Book a call</a>
           <a class="btn ghost" href="#training">Training for departments</a>
         </div>
       </div>
@@ -842,7 +845,7 @@ img.img-fade.loaded { opacity: 1; }
       <div>
         <h2 id="manifesto-h">You deserve more than surviving your career.</h2>
         <p class="sub"><strong>Train today. Recover better. Reconnect with why you started. Be present for the life you're living, not just the shift you're working.</strong></p>
-        <div class="btn-row"><a class="btn primary" href="#contact">Start training</a></div>
+        <div class="btn-row"><a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Start training</a></div>
       </div>
     </div>
   </div>
@@ -874,7 +877,7 @@ img.img-fade.loaded { opacity: 1; }
           <li>Academy blocks or workplace programs that fit existing training</li>
           <li>6–10 week programs with outcomes tracking</li>
         </ul>
-        <a class="btn primary" href="#contact" data-path="department">Request team training</a>
+        <a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly data-path="department">Request team training</a>
       </div>
       <div class="path">
         <figure class="path-media"><img src="images/path-individual-monitor.jpg" alt="A hospital clinician entering readings at a vital-signs monitor" loading="lazy"></figure>
@@ -886,7 +889,7 @@ img.img-fade.loaded { opacity: 1; }
           <li>Coaching, not therapy: goals, reps, and measurable progress</li>
           <li>Starts with a no-cost intro call</li>
         </ul>
-        <a class="btn ghost" href="#contact" data-path="individual">Book an intro call</a>
+        <a class="btn ghost" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly data-path="individual">Book an intro call</a>
       </div>
     </div>
   </div>
@@ -1141,6 +1144,17 @@ document.querySelectorAll('[data-path]').forEach(function (btn) {
       });
   });
 })();
+</script>
+<script>
+// Calendly popup on scheduler CTAs — falls back to the href (new tab) if the widget has not loaded
+document.querySelectorAll('[data-calendly]').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    if (window.Calendly && typeof Calendly.initPopupWidget === 'function') {
+      e.preventDefault();
+      Calendly.initPopupWidget({ url: a.getAttribute('href') });
+    }
+  });
+});
 </script>
 
 </body>

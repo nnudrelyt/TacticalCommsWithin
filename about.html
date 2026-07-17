@@ -28,6 +28,9 @@
 <!-- Display: Archivo. Body: Hanken Grotesk. Both free stand-ins — swap for the
      licensed Aktiv Grotesk + Bio Sans web kits in the final build. -->
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Calendly popup widget -->
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <style>
 /* ============ VISUAL SYSTEM — warm off-white + acid-lime ============ */
 :root {
@@ -706,7 +709,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
       <li><a href="/#training">Training</a></li>
       <li><a href="about.html" aria-current="page">About Kari</a></li>
     </ul>
-    <a class="btn primary" href="/#contact">Get started</a>
+    <a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Get started</a>
   </nav>
 </header>
 
@@ -758,7 +761,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
     <span class="eyebrow">Take the first step</span>
     <h2 id="cta-h">Start where you are.</h2>
     <p class="sub">For your department, your academy, or yourself.</p>
-    <div class="btn-row"><a class="btn primary" href="/#contact">Book an intro call</a></div>
+    <div class="btn-row"><a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Book an intro call</a></div>
   </div>
 </section>
 
@@ -797,5 +800,16 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   </div>
 </footer>
 
+<script>
+// Calendly popup on scheduler CTAs — falls back to the href (new tab) if the widget has not loaded
+document.querySelectorAll('[data-calendly]').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    if (window.Calendly && typeof Calendly.initPopupWidget === 'function') {
+      e.preventDefault();
+      Calendly.initPopupWidget({ url: a.getAttribute('href') });
+    }
+  });
+});
+</script>
 </body>
 </html>
