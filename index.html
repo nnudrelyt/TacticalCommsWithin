@@ -290,13 +290,17 @@ header {
 @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1000px) { .cards.four { grid-template-columns: repeat(4, 1fr); } }
 .card {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(234,253,98,0.55);
   border-radius: var(--radius);
   padding: 28px;
   background: var(--panel);
   transition: border-color 0.2s ease, transform 0.2s cubic-bezier(.2,.7,.3,1), box-shadow 0.2s ease;
 }
-.card:hover { border-color: rgba(89,102,44,0.45); transform: translateY(-3px); box-shadow: 0 16px 30px -22px rgba(25,23,18,0.5); }
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 2px rgba(234,253,98,0.14), 0 16px 30px -22px rgba(25,23,18,0.5);
+}
 .card-icon {
   display: grid;
   place-items: center;
@@ -358,9 +362,17 @@ header {
 .path-media { margin: -32px -32px 12px; aspect-ratio: 16 / 9; overflow: hidden; }
 .path-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .path h3 { color: var(--ink); font-size: 1.25rem; }
-.path ul { padding-left: 20px; font-size: 0.95rem; color: var(--body); }
-.path li { margin-bottom: 7px; }
-.path li::marker { color: var(--accent); }
+.path ul { list-style: none; padding-left: 0; font-size: 0.95rem; color: var(--body); }
+.path li { margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; }
+/* bare ink checkmark bullet */
+.path li::before {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 5px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><path d="M2.5 8.5l3.5 3.5 7.5-8" stroke="%23191712" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / 16px 16px no-repeat;
+}
 .path .btn { margin-top: auto; }
 .path .tag {
   font-size: 0.68rem;
@@ -436,6 +448,16 @@ form { display: grid; gap: 18px; }
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 .contact input::placeholder, .contact textarea::placeholder { color: var(--on-dark-mute); }
+/* custom select chevron — native arrow renders misaligned on the styled control */
+.contact select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="%23F5F1E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px 16px;
+  padding-right: 44px;
+}
 .contact input:focus, .contact select:focus, .contact textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(234,253,98,0.16);
@@ -534,17 +556,16 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   .intro-hint { display: none; }
 }
 
-/* ============ MANIFESTO BAND (emotional turn + trained outcomes, photo-backed) ============ */
-.manifesto {
-  text-align: center;
-  background:
-    linear-gradient(to bottom, rgba(20,18,14,0.82), rgba(20,18,14,0.88)),
-    var(--dark) url("images/manifesto-firefighter.jpg") center 30% / cover no-repeat;
-}
-.manifesto h2 { font-size: clamp(2rem, 5vw, 3.4rem); max-width: 20ch; margin: 0 auto; }
-.manifesto .sub { color: var(--on-dark-mute); max-width: 60ch; margin: 20px auto 0; font-size: 1.05rem; }
-.manifesto .sub strong { color: var(--on-dark); font-weight: 600; }
-.manifesto .btn-row { justify-content: center; margin-top: 38px; }
+/* ============ MANIFESTO — split feature: portrait panel + copy ============ */
+.manifesto { background: var(--dark); }
+.manifesto .split { display: grid; gap: 52px; align-items: center; }
+@media (min-width: 860px) { .manifesto .split { grid-template-columns: 5fr 6fr; } }
+.manifesto .shot { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 5; }
+.manifesto .shot img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; display: block; }
+.manifesto h2 { font-size: clamp(2rem, 5vw, 3.4rem); margin: 0; }
+.manifesto .sub { color: var(--on-dark-mute); max-width: 48ch; margin: 20px 0 0; font-size: 1.05rem; }
+.manifesto .sub strong { color: var(--on-dark); font-weight: 500; }
+.manifesto .btn-row { margin-top: 34px; }
 
 /* ============ FEATURED QUOTE (therapist callout — the field-proof) ============ */
 .featured-quote { background: var(--bg); }
@@ -563,7 +584,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   font-weight: 800;
   max-width: none;
 }
-/* scroll-triggered marker highlight (sweeps in via background-size) */
+/* scroll-linked marker highlight (background-size driven by scroll position in JS) */
 .hl {
   background-image: linear-gradient(var(--accent), var(--accent));
   background-repeat: no-repeat;
@@ -573,12 +594,9 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   border-radius: 4px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  transition: background-size 1.1s cubic-bezier(.2,.7,.3,1) 0.15s;
 }
 .hl.on { background-size: 100% 100%; }
-@media (prefers-reduced-motion: reduce) {
-  .hl { transition: none; }
-}
+.fq footer::before { content: "— "; }
 .fq footer {
   margin-top: 22px;
   font-size: 0.74rem;
@@ -732,35 +750,40 @@ img.img-fade.loaded { opacity: 1; }
 <!-- ============ OUTCOMES — under the built-for strip ============ -->
 <section id="outcomes" aria-labelledby="out-h">
   <div class="wrap">
-    <h2 id="out-h">Be as good off duty as you are on.</h2>
-    <p style="margin-top:16px; max-width:84ch;">Train your nervous system and see results where they count, on the job and in your personal relationships.</p>
+    <h2 id="out-h">Be as strong off shift as you are on it.</h2>
+    <p style="margin-top:16px; max-width:none;">Train your nervous system and see results where they count, on the job and in your personal relationships.</p>
     <div class="cards four">
       <div class="card">
         <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="3"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span>
-        <h3>Make the right call under pressure</h3><p>Stay mentally sharp in the moments that matter most, and during the inevitable paperwork that follows.</p>
+        <h3>Perform under pressure.</h3><p>Stay mentally sharp during the moments that matter most, and during the inevitable paperwork that follows.</p>
       </div>
       <div class="card">
         <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.8A8.3 8.3 0 0 1 10.2 4a7.6 7.6 0 1 0 9.8 9.8Z"/><path d="M17.2 2.6l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6.6-1.6z" fill="currentColor" stroke="none"/></svg></span>
-        <h3>Actually sleep between tours</h3><p>Downshift on demand so the body recovers, even on rotating shifts.</p>
+        <h3>Better sleep.</h3><p>Downshift on demand so your body recovers faster and more deeply.</p>
       </div>
       <div class="card">
         <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5a7.5 7.5 0 0 1 15 0"/><path d="M12 16.5l3.6-3.6"/><path d="M3 20h18"/></svg></span>
-        <h3>Keep control in conflict</h3><p>Own your escalation curve in confrontations on and off duty.</p>
+        <h3>Maintain control in conflict.</h3><p>Own your escalation curve in confrontations on and off the job.</p>
       </div>
       <div class="card">
         <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"/><path d="M14.5 8H20v5.5"/></svg></span>
-        <h3>Stay in the career longer</h3><p>Burnout prevention that keeps experienced people in the job past the decade mark.</p>
+        <h3>Go further in your career.</h3><p>Burnout prevention that keeps experienced people on the job longer.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ MANIFESTO BAND (emotional turn, photo-backed) ============ -->
+<!-- ============ MANIFESTO — split feature: portrait panel + copy ============ -->
 <section class="dark-section manifesto" aria-labelledby="manifesto-h">
   <div class="wrap">
-    <h2 id="manifesto-h">You deserve more than surviving your career.</h2>
-    <p class="sub"><strong>Train today. Recover better. Reconnect with why you started. Be present for the life you're living</strong>, not just the shift you're working. The goal was never to survive the job. It's to still enjoy your life while you do it.</p>
-    <div class="btn-row"><a class="btn primary" href="#contact">Start training</a></div>
+    <div class="split">
+      <figure class="shot"><img src="images/feature-paramedic.jpg" alt="A paramedic sits in the open back of an ambulance" loading="lazy"></figure>
+      <div>
+        <h2 id="manifesto-h">You deserve more than surviving your career.</h2>
+        <p class="sub"><strong>Train today. Recover better. Reconnect with why you started. Be present for the life you're living, not just the shift you're working.</strong></p>
+        <div class="btn-row"><a class="btn primary" href="#contact">Start training</a></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -768,7 +791,7 @@ img.img-fade.loaded { opacity: 1; }
 <section class="featured-quote" aria-labelledby="fq-h">
   <div class="wrap">
     <blockquote class="fq">
-      <p id="fq-h">I had an officer describe getting through a critical incident at work and responding in a way they felt was effective. When I asked what strategies they used, they told me <span class="hl">they used the breath training</span> they learned while in the police academy.</p>
+      <p id="fq-h">I had an officer describe getting through a critical incident at work and responding in a way they felt was effective. When I asked what strategies they used, they told me <span class="hl">they used the nervous-system training</span> they learned while in the police academy.</p>
       <footer>Shared by the officer's therapist</footer>
     </blockquote>
   </div>
@@ -777,13 +800,13 @@ img.img-fade.loaded { opacity: 1; }
 <!-- ============ SERVICE PATHS ============ -->
 <section class="paths" id="training" aria-labelledby="paths-h">
   <div class="wrap">
-    <span class="eyebrow">Two ways in</span>
-    <h2 id="paths-h">For your department. Or for you.</h2>
+    <span class="eyebrow">Get started</span>
+    <h2 id="paths-h">Bring it to your department or train 1:1.</h2>
     <div class="path-grid">
       <div class="path">
-        <figure class="path-media"><img src="images/path-departments.jpg" alt="A first responder's hands holding a duty radio" loading="lazy"></figure>
+        <figure class="path-media"><img src="images/path-dept-sergeant.jpg" alt="A police sergeant addressing officers during a briefing" loading="lazy"></figure>
         <span class="tag">For departments, academies &amp; teams</span>
-        <h3>A unit that performs under pressure</h3>
+        <h3>A unit that performs under pressure.</h3>
         <ul>
           <li>Healthier people, stronger performance and communication, fewer burnout losses</li>
           <li>Workshops tailored to your unit, shift structure, or crew</li>
@@ -793,9 +816,9 @@ img.img-fade.loaded { opacity: 1; }
         <a class="btn primary" href="#contact" data-path="department">Request team training</a>
       </div>
       <div class="path">
-        <figure class="path-media"><img src="images/path-individuals.jpg" alt="Clasped hands resting in a moment of composure" loading="lazy"></figure>
+        <figure class="path-media"><img src="images/path-individual-officer.jpg" alt="Black-and-white profile portrait of a police officer" loading="lazy"></figure>
         <span class="tag">For individuals</span>
-        <h3>Your edge, trained on your schedule</h3>
+        <h3>Gain an edge, on your schedule.</h3>
         <ul>
           <li>Recognize when you're running outside your window of tolerance, and recover faster</li>
           <li>Private, practical, and scheduled around your shifts</li>
@@ -812,7 +835,7 @@ img.img-fade.loaded { opacity: 1; }
 <section class="contact dark-section" id="contact" aria-labelledby="contact-h">
   <div class="wrap">
     <span class="eyebrow">Learn more</span>
-    <h2 id="contact-h">Take the first step, for you or your department</h2>
+    <h2 id="contact-h">Take the first step for you or your department.</h2>
     <p style="max-width:88ch;">Learn what nervous-system training can do for your sleep, recovery, and performance.</p>
     <div class="contact-grid">
       <form aria-label="Contact Kari">
@@ -956,6 +979,7 @@ img.img-fade.loaded { opacity: 1; }
   var groups = [
     '#outcomes .wrap > h2, #outcomes .wrap > p',
     '#outcomes .card',
+    '.manifesto .shot',
     '.manifesto h2, .manifesto .sub, .manifesto .btn-row',
     '.featured-quote .fq',
     '.paths .eyebrow, .paths h2',
@@ -978,7 +1002,7 @@ img.img-fade.loaded { opacity: 1; }
   });
 
   // fade images in as they finish loading
-  document.querySelectorAll('.hero-media img, .path-media img').forEach(function (img) {
+  document.querySelectorAll('.hero-media img, .path-media img, .manifesto .shot img').forEach(function (img) {
     img.classList.add('img-fade');
     if (img.complete && img.naturalWidth) { img.classList.add('loaded'); return; }
     img.addEventListener('load', function () { img.classList.add('loaded'); });
@@ -986,17 +1010,25 @@ img.img-fade.loaded { opacity: 1; }
   });
 })();
 
-// Featured quote: sweep the marker highlight in when it scrolls into view
+// Featured quote: marker highlight sweeps in sync with scroll position —
+// 0% as the line enters low in the viewport, 100% by the time it reaches mid-screen
 (function () {
   var hl = document.querySelector('.fq .hl');
   if (!hl) return;
-  if (!('IntersectionObserver' in window)) { hl.classList.add('on'); return; }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) {
-      if (en.isIntersecting) { hl.classList.add('on'); io.disconnect(); }
-    });
-  }, { threshold: 0.6 });
-  io.observe(hl);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { hl.classList.add('on'); return; }
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var r = hl.getBoundingClientRect();
+    var vh = window.innerHeight || 1;
+    var start = vh * 0.95, end = vh * 0.48;
+    var p = Math.min(1, Math.max(0, (start - r.top) / (start - end)));
+    hl.style.backgroundSize = (p * 100).toFixed(1) + '% 100%';
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 })();
 
 // Path buttons preselect the matching interest option in the contact form
