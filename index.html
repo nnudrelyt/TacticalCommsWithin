@@ -3,11 +3,31 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TCW — Single-Page Wireframe v2</title>
+<title>Nervous-system training for first responders | Tactical Communications Within</title>
+<meta name="description" content="Breathwork and nervous-system regulation for first responders — for sharper decisions under pressure, real sleep, and a longer career. Training, not therapy. Built from inside the job." />
+<link rel="canonical" href="https://tacticalcommunicationswithin.com/" />
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+<meta name="theme-color" content="#14120E" />
+
+<!-- social -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Tactical Communications Within" />
+<meta property="og:url" content="https://tacticalcommunicationswithin.com/" />
+<meta property="og:title" content="Nervous-system training for first responders" />
+<meta property="og:description" content="Breathwork and nervous-system regulation for first responders — for sharper decisions under pressure, real sleep, and a longer career. Training, not therapy." />
+<meta property="og:image" content="https://tacticalcommunicationswithin.com/images/og-card.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="A firefighter sits in a sunlit fire-station apparatus bay" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Nervous-system training for first responders" />
+<meta name="twitter:description" content="Breathwork and nervous-system regulation for first responders — for sharper decisions under pressure, real sleep, and a longer career." />
+<meta name="twitter:image" content="https://tacticalcommunicationswithin.com/images/og-card.jpg" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Stand-ins for the Strata Performance faces: Archivo ≈ Aktiv Grotesk (display), Inter ≈ Bio Sans (body).
-     Swap for the licensed Aktiv Grotesk + Bio Sans web kits in final build. -->
+<!-- Display: Archivo. Body: Hanken Grotesk. Both free stand-ins — swap for the
+     licensed Aktiv Grotesk + Bio Sans web kits in the final build. -->
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============ VISUAL SYSTEM — warm off-white + acid-lime ============ */
@@ -54,7 +74,7 @@ h1, h2, h3 {
   line-height: 1.08;
   letter-spacing: -0.02em;
 }
-/* Headlines are sentence-case (Strata voice); uppercase is reserved for eyebrows/labels. */
+/* Headlines are sentence-case; uppercase is reserved for eyebrows/labels. */
 h1 { font-size: clamp(2.9rem, 7vw, 6rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.02; }
 h2 { font-size: clamp(1.9rem, 4.2vw, 3rem); font-weight: 700; margin-bottom: 14px; letter-spacing: -0.03em; line-height: 1.04; }
 h3 { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.015em; }
@@ -268,7 +288,7 @@ header {
   .marquee .set { white-space: normal; flex-wrap: wrap; gap: 8px 22px; }
 }
 
-/* ============ OBJECTION — split headline / support columns (Strata-style) ============ */
+/* ============ SPLIT headline / support columns ============ */
 .objection { background: var(--bg-2); }
 .objection-grid { display: grid; gap: 20px 72px; align-items: start; }
 @media (min-width: 860px) { .objection-grid { grid-template-columns: 5fr 6fr; } }
@@ -816,7 +836,7 @@ img.img-fade.loaded { opacity: 1; }
         <a class="btn primary" href="#contact" data-path="department">Request team training</a>
       </div>
       <div class="path">
-        <figure class="path-media"><img src="images/path-individual-officer.jpg" alt="Black-and-white profile portrait of a police officer" loading="lazy"></figure>
+        <figure class="path-media"><img src="images/path-individual-monitor.jpg" alt="A hospital clinician entering readings at a vital-signs monitor" loading="lazy"></figure>
         <span class="tag">For individuals</span>
         <h3>Gain an edge, on your schedule.</h3>
         <ul>
@@ -1038,10 +1058,11 @@ document.querySelectorAll('[data-path]').forEach(function (btn) {
     if (sel) sel.value = btn.getAttribute('data-path');
   });
 });
-// Wireframe only: block real submit
+// Preview only — the form has no backend yet. Kept honest on purpose: do not fake
+// a success state here, or a real enquiry will be silently dropped.
 document.querySelector('form').addEventListener('submit', function (e) {
   e.preventDefault();
-  alert('Wireframe — form not wired. Final build posts to intake + notifies Kari.');
+  alert("Thanks — this form isn't connected yet. It's coming before launch. In the meantime, reach Kari at hello@tacticalcommunicationswithin.com.");
 });
 </script>
 
