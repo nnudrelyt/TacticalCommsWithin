@@ -126,6 +126,10 @@ section { padding: clamp(72px, 8vw, 104px) 0; border-bottom: 1px solid var(--lin
   transition: max-width 0.28s cubic-bezier(.2,.7,.3,1), margin-left 0.28s cubic-bezier(.2,.7,.3,1), opacity 0.18s ease, transform 0.28s cubic-bezier(.2,.7,.3,1);
 }
 .btn.primary:hover { transform: translateY(-2px); background: #f2ff85; box-shadow: 0 12px 26px -14px rgba(25,23,18,0.55); }
+/* the ink drop-shadow is invisible on dark surfaces — swap it for a lime glow so
+   the lift reads the same as it does against the cream nav */
+.hero-overlay .btn.primary:hover,
+.dark-section .btn.primary:hover { box-shadow: 0 12px 30px -10px rgba(234,253,98,0.45); }
 .btn.primary:hover::after, .btn.primary:focus-visible::after { max-width: 1.3em; margin-left: 10px; opacity: 1; transform: translateX(0); }
 @media (prefers-reduced-motion: reduce) {
   .btn.primary::after { max-width: 1.3em; margin-left: 10px; opacity: 1; transform: none; transition: none; }
@@ -186,7 +190,7 @@ header {
   white-space: nowrap;
   display: block;
 }
-.logo-wm .dot { color: var(--ink); }
+.logo-wm .dot { color: var(--accent); }
 .on-dark .logo-wm .dot, .dark-section .logo-wm .dot { color: var(--accent); }
 .nav-links { display: none; gap: 24px; list-style: none; }
 .nav-links a { text-decoration: none; font-size: 0.82rem; font-weight: 700; color: var(--body); letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.15s ease; }
@@ -718,7 +722,7 @@ img.img-fade.loaded { opacity: 1; }
       <li><a href="#training">Training</a></li>
       <li><a href="about.html">About Kari</a></li>
     </ul>
-    <a class="btn primary" href="#contact">Book a call</a>
+    <a class="btn primary" href="#contact">Get started</a>
   </nav>
 </header>
 
@@ -734,7 +738,7 @@ img.img-fade.loaded { opacity: 1; }
         <h1 id="hero-h">Make the call.</h1>
         <p class="sub">Breathwork and nervous-system regulation for first responders — for sharper decisions under pressure, real sleep, and a longer career. Built from inside the job, not outside it.</p>
         <div class="btn-row">
-          <a class="btn primary" href="#contact">Book an intro call</a>
+          <a class="btn primary" href="#contact">Book a call</a>
           <a class="btn ghost" href="#training">Training for departments</a>
         </div>
       </div>
@@ -900,7 +904,7 @@ img.img-fade.loaded { opacity: 1; }
 
 <footer class="site">
   <div class="wrap">
-    <span>Tactical Communications Within LLC</span>
+    <span>©2026 | Tactical Communications Within LLC</span>
     <span>hello@tacticalcommunicationswithin.com</span>
   </div>
 </footer>
