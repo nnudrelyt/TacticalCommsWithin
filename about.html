@@ -563,6 +563,18 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
 .manifesto .sub strong { color: var(--on-dark); font-weight: 600; }
 .manifesto .btn-row { justify-content: center; margin-top: 30px; }
 
+/* ============ PHILOSOPHY + FIRST-STEP — 50/50 split panel ============ */
+.split-panel { padding: 0; border-bottom: 0; }
+.split-panel .sp-grid { display: grid; }
+@media (min-width: 860px) { .split-panel .sp-grid { grid-template-columns: 1fr 1fr; } }
+.sp-half { padding: clamp(56px, 7vw, 96px) clamp(24px, 5vw, 64px); display: flex; flex-direction: column; justify-content: center; }
+.sp-half > * { max-width: 44ch; }
+.sp-philosophy { background: var(--bg-2); }
+.sp-philosophy h2 { margin-bottom: 18px; }
+.sp-philosophy p { color: var(--body); }
+.sp-firststep .sub { margin-top: 18px; font-size: 1.05rem; }
+.sp-firststep .btn-row { margin-top: 30px; }
+
 /* ============ FEATURED QUOTE (therapist callout — the field-proof) ============ */
 .featured-quote { background: var(--bg-2); }
 .fq {
@@ -740,28 +752,20 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   </div>
 </section>
 
-<!-- ============ PHILOSOPHY ============ -->
-<section class="objection" aria-labelledby="phil-h">
-  <div class="wrap">
-    <div class="objection-grid">
-      <div>
-        <span class="eyebrow">My philosophy</span>
-        <h2 id="phil-h">Composure is a skill.</h2>
-      </div>
-      <div>
-        <p>Every piece of equipment you carry came with training, except the one system you use on every call: the one that sets how fast your heart beats, how clearly you think, and whether you sleep when you get home. My philosophy is that composure isn't a character trait. It's a physical skill, and like any skill it can be taught, drilled, and sharpened until it holds up on the worst day of someone else's life. Seeking that training isn't an admission that something is wrong. It's what professionals do. The people who show up for everyone else deserve to see how.</p>
-      </div>
+<!-- ============ PHILOSOPHY + FIRST STEP — 50/50 split ============ -->
+<section class="split-panel">
+  <div class="sp-grid">
+    <div class="sp-half sp-philosophy">
+      <span class="eyebrow">My philosophy</span>
+      <h2 id="phil-h">Composure is a skill.</h2>
+      <p>Every piece of equipment you carry came with training, except the one system you use on every call: the one that sets how fast your heart beats, how clearly you think, and whether you sleep when you get home. My philosophy is that composure isn't a character trait. It's a physical skill, and like any skill it can be taught, drilled, and sharpened until it holds up on the worst day of someone else's life. Seeking that training isn't an admission that something is wrong. It's what professionals do. The people who show up for everyone else deserve to see how.</p>
     </div>
-  </div>
-</section>
-
-<!-- ============ CTA ============ -->
-<section class="dark-section manifesto" aria-labelledby="cta-h">
-  <div class="wrap">
-    <span class="eyebrow">Take the first step</span>
-    <h2 id="cta-h">Start where you are.</h2>
-    <p class="sub">For your department, your academy, or yourself.</p>
-    <div class="btn-row"><a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Book an intro call</a></div>
+    <div class="sp-half sp-firststep dark-section">
+      <span class="eyebrow">Take the first step</span>
+      <h2 id="cta-h">Start where you are.</h2>
+      <p class="sub">For your department, your academy, or yourself.</p>
+      <div class="btn-row"><a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Book an intro call</a></div>
+    </div>
   </div>
 </section>
 
@@ -775,8 +779,8 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   var groups = [
     '#about .founder-grid > div',
     '#about .stat-rows',
-    '.objection .objection-grid > div',
-    '.manifesto .eyebrow, .manifesto h2, .manifesto .sub, .manifesto .btn-row'
+    '.sp-philosophy > *',
+    '.sp-firststep > *'
   ];
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
