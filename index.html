@@ -320,7 +320,8 @@ header {
   background: var(--panel);
   transition: border-color 0.2s ease, transform 0.2s cubic-bezier(.2,.7,.3,1), box-shadow 0.2s ease;
 }
-.card:hover {
+/* scoped selector so the lift outranks .reveal.in { transform: none } */
+#outcomes .card:hover {
   border-color: var(--accent);
   transform: translateY(-3px);
   box-shadow: 0 0 0 2px rgba(234,253,98,0.14), 0 16px 30px -22px rgba(25,23,18,0.5);
@@ -374,13 +375,20 @@ header {
 @media (min-width: 860px) { .path-grid { grid-template-columns: 1fr 1fr; } }
 .path {
   background: var(--panel);
-  border: 1px solid var(--line);
+  border: 1px solid rgba(234,253,98,0.55);   /* lime hairline — matches the outcomes cards */
   border-radius: var(--radius);
   padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s cubic-bezier(.2,.7,.3,1), box-shadow 0.2s ease;
+}
+/* scoped selector so it outranks .reveal.in { transform: none } (same specificity, later in source) */
+.paths .path:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px) scale(1.02);   /* grow to read as one clickable target */
+  box-shadow: 0 0 0 2px rgba(234,253,98,0.14), 0 20px 38px -24px rgba(25,23,18,0.55);
 }
 /* full-bleed image cap on the path cards */
 .path-media { margin: -32px -32px 12px; aspect-ratio: 16 / 9; overflow: hidden; }
