@@ -526,6 +526,8 @@ form { display: grid; gap: 18px; }
 .alt-contact h3 { color: var(--on-dark); margin-bottom: 8px; }
 .alt-contact p { color: var(--on-dark-mute); }
 .alt-contact a { color: var(--accent); font-weight: 700; }
+#form-status:not(:empty) { margin-top: 14px; font-size: 0.9rem; color: var(--on-dark-mute); }
+.dark-section .form-thanks { color: var(--on-dark); font-size: 1.1rem; line-height: 1.5; max-width: 42ch; }
 .alt-contact .ph { margin-top: 20px; min-height: 160px; background: rgba(245,241,232,0.04); border: 1.5px dashed var(--line-dark); color: var(--on-dark-mute); }
 /* drill steps recolored for the dark contact card */
 .alt-contact .eyebrow { color: var(--accent); }
@@ -897,7 +899,13 @@ img.img-fade.loaded { opacity: 1; }
     <h2 id="contact-h">Take the first step for you or your department.</h2>
     <p style="max-width:88ch;">Learn what nervous-system training can do for your sleep, recovery, and performance.</p>
     <div class="contact-grid">
-      <form aria-label="Contact Kari">
+      <form id="contact-form" aria-label="Contact Kari">
+        <!-- routes to hello@tacticalcommunicationswithin.com via the inbox tied to this Web3Forms key -->
+        <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY">
+        <input type="hidden" name="subject" value="New enquiry from tacticalcommunicationswithin.com">
+        <input type="hidden" name="from_name" value="Tactical Communications Within — Website">
+        <!-- honeypot: bots fill this; hidden from real users -->
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
         <div>
           <label for="f-name">Name</label>
           <input id="f-name" name="name" type="text" autocomplete="name" required>
@@ -919,7 +927,8 @@ img.img-fade.loaded { opacity: 1; }
           <label for="f-msg">Anything else? <span style="font-weight:400;color:var(--mute);">(optional)</span></label>
           <textarea id="f-msg" name="message" rows="3"></textarea>
         </div>
-        <button class="btn primary" type="submit">Submit</button>
+        <button class="btn primary" type="submit" id="contact-submit">Submit</button>
+        <p id="form-status" role="status" aria-live="polite"></p>
       </form>
       <div class="alt-contact">
         <span class="eyebrow">Try it yourself</span>
@@ -1097,12 +1106,41 @@ document.querySelectorAll('[data-path]').forEach(function (btn) {
     if (sel) sel.value = btn.getAttribute('data-path');
   });
 });
-// Preview only — the form has no backend yet. Kept honest on purpose: do not fake
-// a success state here, or a real enquiry will be silently dropped.
-document.querySelector('form').addEventListener('submit', function (e) {
-  e.preventDefault();
-  alert("Thanks — this form isn't connected yet. It's coming before launch. In the meantime, reach Kari at hello@tacticalcommunicationswithin.com.");
-});
+// Contact form -> Web3Forms -> the inbox tied to the access key (hello@tacticalcommunicationswithin.com)
+(function () {
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var btn = document.getElementById('contact-submit');
+  var statusEl = document.getElementById('form-status');
+  var keyField = form.querySelector('input[name="access_key"]');
+  var PLACEHOLDER = 'WEB3FORMS_ACCESS_KEY';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    // Safety: until the real key is set, stay honest rather than dropping a real enquiry.
+    if (!keyField || keyField.value === PLACEHOLDER) {
+      alert("Thanks — this form isn't connected yet. In the meantime, reach Kari at hello@tacticalcommunicationswithin.com.");
+      return;
+    }
+    var label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    statusEl.textContent = '';
+    statusEl.style.color = '';
+    fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form) })
+      .then(function (r) { return r.json(); })
+      .then(function (json) {
+        if (!json.success) throw new Error(json.message || 'failed');
+        form.innerHTML = '<p class="form-thanks">Thanks — your message is on its way to Kari. She’ll get back to you within one business day.</p>';
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = label;
+        statusEl.style.color = 'var(--accent)';
+        statusEl.textContent = 'Something went wrong. Please try again, or email hello@tacticalcommunicationswithin.com.';
+      });
+  });
+})();
 </script>
 
 </body>
