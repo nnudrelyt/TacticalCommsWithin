@@ -408,8 +408,9 @@ header {
 
 /* ============ FOUNDER ============ */
 .founder-grid { display: grid; gap: 36px; }
-@media (min-width: 860px) { .founder-grid { grid-template-columns: 6fr 4fr; align-items: center; } }
-.founder-img { align-self: start; border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
+@media (min-width: 860px) { .founder-grid { grid-template-columns: 6fr 4fr; align-items: start; } }
+.founder-side { align-self: start; }
+.founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
 .cred-block { margin-top: 26px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .cred { list-style: none; margin: 0; padding: 14px 0; }
@@ -626,8 +627,9 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
 .stat-rows {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  padding: 18px 0;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 18px 0 0;
   border-top: 1px solid var(--line);
 }
 .stat-row { display: block; }
@@ -748,14 +750,16 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
             <li>Trauma-informed Language of Breath instructor</li>
             <li>Teaches from lived experience, including her own recovery from serious injury, not from a textbook</li>
           </ul>
-          <div class="stat-rows" role="group" aria-label="Credentials by the numbers">
-            <div class="stat-row"><div class="num">17+</div><div class="lbl">Years on the job</div></div>
-            <div class="stat-row"><div class="num">115+</div><div class="lbl">Students trained</div></div>
-            <div class="stat-row"><div class="num">5+</div><div class="lbl">Academy classes taught</div></div>
-          </div>
         </div>
       </div>
-      <div class="founder-img"><img src="images/about-kari-portrait.jpg" alt="Portrait of Kari Pennington, seated against a stone wall" width="900" height="1125" decoding="async"></div>
+      <div class="founder-side">
+        <div class="founder-img"><img src="images/about-kari-portrait.jpg" alt="Portrait of Kari Pennington, seated against a stone wall" width="900" height="1125" decoding="async"></div>
+        <div class="stat-rows" role="group" aria-label="Credentials by the numbers">
+          <div class="stat-row"><div class="num">17+</div><div class="lbl">Years on the job</div></div>
+          <div class="stat-row"><div class="num">115+</div><div class="lbl">Students trained</div></div>
+          <div class="stat-row"><div class="num">5+</div><div class="lbl">Academy classes taught</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
