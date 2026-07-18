@@ -55,6 +55,7 @@
   --focus:   #191712;
 
   /* dark accent surfaces — immersive punctuation (hero scrim, testimonials, final CTA) */
+  --stone:     #474540;                  /* neutral stone — mid-step band between cream and dark */
   --dark:      #14120E;                  /* warm near-black section bg */
   --dark-2:    #1E1B15;                  /* raised card on dark */
   --on-dark:   #F5F1E8;                  /* text on dark */
@@ -317,6 +318,7 @@ header {
 .objection-grid { display: grid; gap: 20px 72px; align-items: start; }
 @media (min-width: 860px) { .objection-grid { grid-template-columns: 5fr 6fr; } }
 .objection h2 { color: var(--ink); margin-bottom: 0; }
+.objection .eyebrow { color: var(--stone); }
 .objection p { color: var(--body); }
 .objection p + p { margin-top: 18px; }
 /* lime keyword highlight (marker-bg, not text — dodges lime's low contrast on cream) */
@@ -407,12 +409,25 @@ header {
 /* ============ FOUNDER ============ */
 .founder-grid { display: grid; gap: 36px; }
 @media (min-width: 860px) { .founder-grid { grid-template-columns: 6fr 4fr; align-items: center; } }
-.founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
+.founder-img { align-self: start; border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
 .cred-block { margin-top: 26px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .cred { list-style: none; margin: 0; padding: 14px 0; }
 .cred li { display: flex; gap: 12px; padding: 6px 0; font-size: 0.97rem; align-items: baseline; color: var(--body); }
 .cred li::before { content: "■"; font-size: 0.6rem; color: var(--ink); }
+/* founder section reversed — sits on stone, a lighter ground than --dark, so the 60%
+   --on-dark-mute only reaches 4.2:1 here; muted text is brightened to 82% to clear AA */
+.dark-section.on-stone { background: var(--stone); }
+.dark-section.on-stone p,
+.dark-section.on-stone .cred li,
+.dark-section.on-stone .stat-row .lbl { color: rgba(245,241,232,0.82); }
+.dark-section .cred-block { border-color: var(--line-dark); }
+.dark-section .cred li { color: var(--on-dark-mute); }
+.dark-section .cred li::before { color: var(--accent); }
+.dark-section .stat-rows { border-top-color: var(--line-dark); }
+.dark-section .stat-row .num { color: var(--on-dark); }
+.dark-section .stat-row .lbl { color: var(--on-dark-mute); }
+.dark-section .founder-img { background: var(--dark-2); }
 
 /* ============ EVIDENCE ============ */
 .evidence .card { margin-top: 0; }
@@ -719,7 +734,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
 <main>
 
 <!-- ============ FOUNDER ============ -->
-<section id="about" aria-labelledby="about-h">
+<section id="about" class="dark-section on-stone" aria-labelledby="about-h">
   <div class="wrap">
     <div class="founder-grid">
       <div>
@@ -740,7 +755,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
           </div>
         </div>
       </div>
-      <div class="founder-img"><img src="images/about-kari-teaching.jpg" alt="Kari Pennington teaching a room of first responders, mid-gesture" width="900" height="1125" decoding="async"></div>
+      <div class="founder-img"><img src="images/about-kari-portrait.jpg" alt="Portrait of Kari Pennington, seated against a stone wall" width="900" height="1125" decoding="async"></div>
     </div>
   </div>
 </section>
