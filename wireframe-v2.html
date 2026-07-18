@@ -538,7 +538,9 @@ form { display: grid; gap: 18px; }
 .alt-contact p { color: var(--on-dark-mute); }
 .alt-contact a { color: var(--accent); font-weight: 700; }
 #form-status:not(:empty) { margin-top: 14px; font-size: 0.9rem; color: var(--on-dark-mute); }
-.dark-section .form-thanks { color: var(--on-dark); font-size: 1.1rem; line-height: 1.5; max-width: 42ch; }
+.dark-section .form-thanks { border: 1px solid var(--line-dark); border-radius: var(--radius); padding: 28px; background: var(--dark-2); color: var(--on-dark); align-self: start; }
+.dark-section .form-thanks .eyebrow { color: var(--accent); }
+.dark-section .form-thanks h3 { color: var(--on-dark); font-size: 1.35rem; line-height: 1.35; margin: 0 0 22px; max-width: 26ch; }
 .alt-contact .ph { margin-top: 20px; min-height: 160px; background: rgba(245,241,232,0.04); border: 1.5px dashed var(--line-dark); color: var(--on-dark-mute); }
 /* drill steps recolored for the dark contact card */
 .alt-contact .eyebrow { color: var(--accent); }
@@ -1143,7 +1145,22 @@ document.querySelectorAll('[data-path]').forEach(function (btn) {
       .then(function (json) {
         if (!json.success) throw new Error(json.message || 'failed');
         if (window.gtag) gtag('event', 'generate_lead', { method: 'contact_form' });
-        form.innerHTML = '<p class="form-thanks">Thanks — your message is on its way to Kari. She’ll get back to you within one business day.</p>';
+        var thanks = document.createElement('div');
+        thanks.className = 'form-thanks';
+        thanks.innerHTML =
+          '<span class="eyebrow">Thanks</span>' +
+          '<h3>We received your message and will be in touch soon</h3>' +
+          '<button type="button" class="btn ghost" id="thanks-close">Close</button>';
+        form.style.display = 'none';
+        form.insertAdjacentElement('afterend', thanks);
+        thanks.querySelector('#thanks-close').addEventListener('click', function () {
+          thanks.remove();
+          form.reset();
+          form.style.display = '';
+          btn.disabled = false;
+          btn.textContent = label;
+          statusEl.textContent = '';
+        });
       })
       .catch(function () {
         btn.disabled = false;
