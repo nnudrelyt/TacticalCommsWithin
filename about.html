@@ -218,6 +218,17 @@ header {
 .nav-links { display: none; gap: 24px; list-style: none; }
 .nav-links a { text-decoration: none; font-size: 0.82rem; font-weight: 700; color: var(--body); letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.15s ease; }
 .nav-links a:hover { color: var(--ink); }
+/* active state — dashed chartreuse underline. [aria-current] (not ="page") so it also
+   catches the scroll-tracked sections, which use aria-current="true". The mobile menu
+   keeps its own lime-dot treatment. */
+.nav-links a[aria-current] {
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
+}
 .nav .btn { padding: 12px 22px; font-size: 0.85rem; }
 @media (min-width: 860px) { .nav-links { display: flex; } }
 
@@ -803,8 +814,8 @@ footer.site a:hover { color: var(--on-dark); }
   transition:opacity .38s ease,transform .38s cubic-bezier(.2,.7,.3,1),color .18s ease;}
 /* current page is carried by colour weight; the lime dot is a brand cue, not the state itself
    (lime on cream is ~1.1:1 and cannot signal state on its own) */
-.m-link[aria-current="page"]{color:var(--ink);}
-.m-link[aria-current="page"]::before{content:"";display:inline-block;width:11px;height:11px;flex:none;
+.m-link[aria-current]{color:var(--ink);}
+.m-link[aria-current]::before{content:"";display:inline-block;width:11px;height:11px;flex:none;
   background:var(--accent);border-radius:50%;margin-right:16px;}
 .m-cta{margin-top:40px;width:100%;justify-content:center;flex:none;
   opacity:0;transform:translateY(14px);
