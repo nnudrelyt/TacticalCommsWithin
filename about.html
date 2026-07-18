@@ -419,7 +419,11 @@ header {
 /* desktop unchanged: head over body in the left column, portrait spanning both rows on the
    right. row-gap 0 so the h2's own 14px margin still sets the head/body spacing. */
 @media (min-width: 860px) {
-  .founder-grid { grid-template-columns: 6fr 4fr; align-items: start; column-gap: 36px; row-gap: 0; }
+  /* rows: auto 1fr — the portrait spans both rows and on wide viewports is taller than
+     the text, so row 2 must absorb that surplus. With `auto auto` the browser splits it
+     across both rows and opens a gap under the headline. */
+  .founder-grid { grid-template-columns: 6fr 4fr; grid-template-rows: auto 1fr;
+    align-items: start; column-gap: 36px; row-gap: 0; }
   .founder-head { grid-column: 1; grid-row: 1; }
   .founder-body { grid-column: 1; grid-row: 2; }
   .founder-side { grid-column: 2; grid-row: 1 / span 2; }
