@@ -522,10 +522,12 @@ footer.site {
 footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; }
 /* the base `a` colour is --ink, which is near-invisible on the dark footer; the underline
    keeps the email distinguishable from the adjacent copyright text, not colour alone */
-footer.site a { color: var(--on-dark-mute); text-decoration: underline;
-  text-decoration-color: rgba(245,241,232,0.32); text-underline-offset: 3px;
-  transition: color 0.15s ease, text-decoration-color 0.15s ease; }
-footer.site a:hover { color: var(--on-dark); text-decoration-color: var(--on-dark); }
+footer.site a { color: var(--on-dark-mute);
+  text-decoration-line: underline; text-decoration-style: dotted;
+  text-decoration-color: var(--accent); text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  transition: color 0.15s ease; }
+footer.site a:hover { color: var(--on-dark); }
 
 /* ============ SCROLL-REVEAL INTRO (beat sequence) ============ */
 .intro-reveal {
