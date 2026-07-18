@@ -415,7 +415,8 @@ header {
 @media (max-width: 859px) {
   .founder-head { order: 1; }
   .founder-side { order: 2; }
-  .founder-body { order: 3; }
+  .stat-rows    { order: 3; }
+  .founder-body { order: 4; }
 }
 /* desktop unchanged: head over body in the left column, portrait spanning both rows on the
    right. row-gap 0 so the h2's own 14px margin still sets the head/body spacing. */
@@ -430,12 +431,19 @@ header {
   /* rows 1 and 4 are 1fr spacers that split the surplus evenly, so the head+body pair
      centres against the taller portrait. They collapse to 0 if the copy is the taller
      of the two, which keeps the old top-aligned behaviour at narrower widths. */
-  .founder-grid { grid-template-columns: 5fr 6fr; grid-template-rows: 1fr auto auto 1fr;
+  .founder-grid { grid-template-columns: 5fr 6fr; grid-template-rows: 1fr auto auto auto 1fr;
     align-items: start; column-gap: 72px; row-gap: 0; }
   .founder-side { max-width: 62ch; }
   .founder-side { grid-column: 1; grid-row: 1 / -1; }
   .founder-head { grid-column: 2; grid-row: 2; }
   .founder-body { grid-column: 2; grid-row: 3; }
+  /* stats join the copy column under the bullets, matched to the copy measure. Grouped
+     tight and left-aligned rather than spread — and no closing rule, since nothing
+     follows them in the column. Mobile keeps space-between, which fits its narrow width. */
+  /* scoped through .founder-grid: the base .stat-rows rule is defined LATER in this
+     sheet at equal specificity, so an unscoped override here would silently lose. */
+  .founder-grid .stat-rows { grid-column: 2; grid-row: 4; max-width: 62ch;
+    justify-content: start; column-gap: 56px; padding: 18px 0 0; border-bottom: 0; }
 }
 .founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
@@ -848,13 +856,13 @@ footer.site a:hover { color: var(--on-dark); }
           </ul>
         </div>
       </div>
-      <div class="founder-side">
-        <div class="founder-img"><img src="images/about-kari-portrait.jpg" alt="Portrait of Kari Pennington, seated against a stone wall" width="900" height="1125" decoding="async"></div>
         <div class="stat-rows" role="group" aria-label="Credentials by the numbers">
           <div class="stat-row"><div class="num">17+</div><div class="lbl">Years on the job</div></div>
           <div class="stat-row"><div class="num">115+</div><div class="lbl">Students trained</div></div>
           <div class="stat-row"><div class="num">5+</div><div class="lbl">Academy classes taught</div></div>
         </div>
+      <div class="founder-side">
+        <div class="founder-img"><img src="images/about-kari-portrait.jpg" alt="Portrait of Kari Pennington, seated against a stone wall" width="900" height="1125" decoding="async"></div>
       </div>
     </div>
   </div>
