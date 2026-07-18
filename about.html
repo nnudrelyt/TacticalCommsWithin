@@ -408,10 +408,21 @@ header {
 
 /* ============ FOUNDER ============ */
 .founder-grid { display: grid; gap: 36px; }
-@media (min-width: 860px) { .founder-grid { grid-template-columns: 6fr 4fr; align-items: start; } }
 .founder-side { align-self: start; }
-/* stacked: lead with the portrait + stats, then the story (desktop keeps text in col 1) */
-@media (max-width: 859px) { .founder-side { order: -1; } }
+/* stacked: eyebrow + headline, then portrait + stats, then the story */
+@media (max-width: 859px) {
+  .founder-head { order: 1; }
+  .founder-side { order: 2; }
+  .founder-body { order: 3; }
+}
+/* desktop unchanged: head over body in the left column, portrait spanning both rows on the
+   right. row-gap 0 so the h2's own 14px margin still sets the head/body spacing. */
+@media (min-width: 860px) {
+  .founder-grid { grid-template-columns: 6fr 4fr; align-items: start; column-gap: 36px; row-gap: 0; }
+  .founder-head { grid-column: 1; grid-row: 1; }
+  .founder-body { grid-column: 1; grid-row: 2; }
+  .founder-side { grid-column: 2; grid-row: 1 / span 2; }
+}
 .founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
 .cred-block { margin-top: 26px; border-top: 1px solid var(--line); }
@@ -786,9 +797,11 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
 <section id="about" class="dark-section on-stone" aria-labelledby="about-h">
   <div class="wrap">
     <div class="founder-grid">
-      <div>
+      <div class="founder-head">
         <span class="eyebrow">Meet your instructor</span>
         <h2 id="about-h">Trained on the job.<br>Taught in the academy.</h2>
+      </div>
+      <div class="founder-body">
         <p>Most of us chose this profession because we wanted to make a difference. Over time, chronic stress and repeated exposure to hard calls can quietly pull us away from that purpose. Kari's work is about helping people think clearly under pressure, recover more effectively, and reconnect with why they started, in their work and in their lives.</p>
         <p style="margin-top:14px;">In collaboration with breathwork educator and author Jessie Coomer, Kari developed and taught academy-approved curriculum that integrated breathwork and nervous-system regulation into law-enforcement training, combining evidence-based principles with her own experience as an officer.</p>
         <div class="cred-block">
