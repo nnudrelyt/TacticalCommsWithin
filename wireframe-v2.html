@@ -740,6 +740,47 @@ img.img-fade.loaded { opacity: 1; }
   .hero-overlay h1 { font-size: clamp(5rem, 6vw, 8.5rem); max-width: 17ch; }
   .hero-overlay .sub { font-size: 1.34rem; max-width: 54ch; }
 }
+
+/* ============ MOBILE MENU (<860px) ============ */
+.nav-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;margin-right:-10px;
+  background:transparent;border:0;padding:0;cursor:pointer;color:var(--ink);position:relative;z-index:70;}
+.nav-bars{position:relative;display:block;width:22px;height:14px;}
+.nav-bars i{position:absolute;left:0;width:100%;height:2px;background:currentColor;border-radius:2px;
+  transition:transform .34s cubic-bezier(.2,.7,.3,1),width .34s cubic-bezier(.2,.7,.3,1);}
+.nav-bars i:first-child{top:0;}
+.nav-bars i:last-child{bottom:0;width:70%;}
+.nav-toggle[aria-expanded="true"] .nav-bars i:first-child{transform:translateY(6px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] .nav-bars i:last-child{width:100%;transform:translateY(-6px) rotate(-45deg);}
+@media (max-width:859px){ .nav-toggle{display:inline-flex;} .nav > .btn.primary{display:none;} }
+
+.m-menu{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;
+  background:var(--bg);padding:84px 24px 40px;
+  opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s;}
+.m-menu.open{opacity:1;visibility:visible;}
+.m-links{flex:1;display:flex;flex-direction:column;min-height:0;}
+.m-link{flex:1;min-height:62px;display:flex;align-items:center;text-decoration:none;
+  font-family:"Archivo",sans-serif;font-weight:800;
+  font-size:clamp(2.1rem,10vw,3.1rem);line-height:1.04;letter-spacing:-0.025em;
+  color:var(--body);border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(14px);
+  transition:opacity .38s ease,transform .38s cubic-bezier(.2,.7,.3,1),color .18s ease;}
+/* current page is carried by colour weight; the lime dot is a brand cue, not the state itself
+   (lime on cream is ~1.1:1 and cannot signal state on its own) */
+.m-link[aria-current="page"]{color:var(--ink);}
+.m-link[aria-current="page"]::before{content:"";display:inline-block;width:11px;height:11px;flex:none;
+  background:var(--accent);border-radius:50%;margin-right:16px;}
+.m-cta{margin-top:40px;width:100%;justify-content:center;flex:none;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .38s ease,transform .38s cubic-bezier(.2,.7,.3,1);}
+.m-menu.open .m-link,.m-menu.open .m-cta{opacity:1;transform:none;}
+.m-menu.open .m-link:nth-of-type(1){transition-delay:.08s}
+.m-menu.open .m-link:nth-of-type(2){transition-delay:.14s}
+.m-menu.open .m-link:nth-of-type(3){transition-delay:.20s}
+.m-menu.open .m-cta{transition-delay:.28s}
+@media (prefers-reduced-motion:reduce){
+  .nav-bars i{transition:none;}
+  .m-menu,.m-link,.m-cta{transition:opacity .01s linear!important;transform:none!important;}
+}
 </style>
 </head>
 <body>
@@ -773,6 +814,9 @@ img.img-fade.loaded { opacity: 1; }
       <li><a href="about.html">About Kari</a></li>
     </ul>
     <a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Get started</a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+      <span class="nav-bars" aria-hidden="true"><i></i><i></i></span>
+    </button>
   </nav>
 </header>
 
@@ -1188,6 +1232,61 @@ window.addEventListener('message', function (e) {
     gtag('event', 'generate_lead', { method: 'calendly' });
   }
 });
+</script>
+
+
+<!-- ============ MOBILE MENU ============ -->
+<div class="m-menu" id="mobileMenu" hidden>
+  <nav class="m-links" aria-label="Mobile">
+    <a class="m-link" href="#outcomes">Outcomes</a>
+    <a class="m-link" href="#training">Training</a>
+    <a class="m-link" href="about.html">About Kari</a>
+  </nav>
+  <a class="btn primary m-cta" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Get started</a>
+</div>
+
+<script>
+// Mobile menu — full-height panel below 860px. Background content is made inert while
+// open so keyboard focus cannot wander behind the overlay.
+(function () {
+  var btn = document.getElementById('navToggle'), menu = document.getElementById('mobileMenu');
+  if (!btn || !menu) return;
+  var bg = [].slice.call(document.querySelectorAll('main, footer.site, #intro'));
+  function setInert(on) {
+    bg.forEach(function (el) { on ? el.setAttribute('inert', '') : el.removeAttribute('inert'); });
+  }
+  function open() {
+    menu.hidden = false; void menu.offsetHeight;
+    menu.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close menu');
+    document.body.style.overflow = 'hidden';
+    setInert(true);
+  }
+  function close() {
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    document.body.style.overflow = '';
+    setInert(false);
+    var done = function () {
+      if (!menu.classList.contains('open')) menu.hidden = true;
+      menu.removeEventListener('transitionend', done);
+    };
+    menu.addEventListener('transitionend', done);
+    setTimeout(done, 450);
+  }
+  btn.addEventListener('click', function () {
+    btn.getAttribute('aria-expanded') === 'true' ? close() : open();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { close(); btn.focus(); }
+  });
+  menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 860 && btn.getAttribute('aria-expanded') === 'true') close();
+  });
+})();
 </script>
 
 </body>
