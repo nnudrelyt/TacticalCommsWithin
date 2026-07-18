@@ -430,7 +430,9 @@ header {
 }
 .founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
-.cred-block { margin-top: 26px; border-top: 1px solid var(--line); }
+/* match the paragraph measure (p is capped at 62ch) so the rule and bullets don't
+   overhang the copy above them on wide viewports */
+.cred-block { margin-top: 26px; border-top: 1px solid var(--line); max-width: 62ch; }
 .cred { list-style: none; margin: 0; padding: 14px 0; }
 .cred li { display: flex; gap: 12px; padding: 6px 0; font-size: 0.97rem; align-items: baseline; color: var(--body); }
 .cred li::before { content: "■"; font-size: 0.6rem; color: var(--ink); }
