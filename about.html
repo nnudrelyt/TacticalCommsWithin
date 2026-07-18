@@ -427,12 +427,15 @@ header {
      column shares a left edge with the philosophy paragraph and the portrait shares
      one with the philosophy headline. Side is capped at the paragraph measure so the
      portrait doesn't balloon on wide viewports. */
-  .founder-grid { grid-template-columns: 5fr 6fr; grid-template-rows: auto 1fr;
+  /* rows 1 and 4 are 1fr spacers that split the surplus evenly, so the head+body pair
+     centres against the taller portrait. They collapse to 0 if the copy is the taller
+     of the two, which keeps the old top-aligned behaviour at narrower widths. */
+  .founder-grid { grid-template-columns: 5fr 6fr; grid-template-rows: 1fr auto auto 1fr;
     align-items: start; column-gap: 72px; row-gap: 0; }
   .founder-side { max-width: 62ch; }
-  .founder-side { grid-column: 1; grid-row: 1 / span 2; }
-  .founder-head { grid-column: 2; grid-row: 1; }
-  .founder-body { grid-column: 2; grid-row: 2; }
+  .founder-side { grid-column: 1; grid-row: 1 / -1; }
+  .founder-head { grid-column: 2; grid-row: 2; }
+  .founder-body { grid-column: 2; grid-row: 3; }
 }
 .founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
