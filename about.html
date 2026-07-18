@@ -443,7 +443,10 @@ header {
   /* scoped through .founder-grid: the base .stat-rows rule is defined LATER in this
      sheet at equal specificity, so an unscoped override here would silently lose. */
   .founder-grid .stat-rows { grid-column: 2; grid-row: 4; max-width: 62ch;
-    justify-content: start; column-gap: 56px; padding: 18px 0 0; border-bottom: 0; }
+    justify-content: space-between; column-gap: 24px; padding: 18px 0 0; border-bottom: 0; }
+  /* labels run on one line here and the row spreads to the copy measure. No nowrap:
+     below ~1024 there isn't room, and they wrap rather than overflow. */
+  .founder-grid .stat-row .lbl { max-width: none; }
 }
 .founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
