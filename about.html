@@ -422,6 +422,11 @@ header {
 /* ============ FOUNDER ============ */
 .founder-grid { display: grid; gap: 36px; }
 .founder-side { align-self: start; }
+/* This is the page's h1 semantically, but it keeps the h2 type scale: the section's
+   line breaks, column ratios and the head/body gap are all tuned to that size, and the
+   base h1 (clamp 2.9-6rem, no margin-bottom) would blow all three up. */
+.founder-head h1 { font-size: clamp(1.9rem, 4.2vw, 3rem); letter-spacing: -0.03em;
+  line-height: 1.04; margin-bottom: 14px; }
 /* stacked: eyebrow + headline, then portrait + stats, then the story */
 @media (max-width: 859px) {
   .founder-head { order: 1; }
@@ -857,7 +862,7 @@ footer.site a:hover { color: var(--on-dark); }
     <div class="founder-grid">
       <div class="founder-head">
         <span class="eyebrow">Meet your instructor</span>
-        <h2 id="about-h">Trained on the job.<br>Taught in the academy.</h2>
+        <h1 id="about-h">Trained on the job.<br>Taught in the academy.</h1>
       </div>
       <div class="founder-body">
         <p>Most of us chose this profession because we wanted to make a difference. Over time, chronic stress and repeated exposure to hard calls can quietly pull us away from that purpose. Kari's work is about helping people think clearly under pressure, recover more effectively, and reconnect with why they started, in their work and in their lives.</p>
