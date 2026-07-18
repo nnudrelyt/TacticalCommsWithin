@@ -749,15 +749,21 @@ img.img-fade.loaded { opacity: 1; }
 }
 
 /* ============ MOBILE MENU (<860px) ============ */
-.nav-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;margin-right:-10px;
-  background:transparent;border:0;padding:0;cursor:pointer;color:var(--ink);position:relative;z-index:70;}
-.nav-bars{position:relative;display:block;width:22px;height:14px;}
-.nav-bars i{position:absolute;left:0;width:100%;height:2px;background:currentColor;border-radius:2px;
-  transition:transform .34s cubic-bezier(.2,.7,.3,1),width .34s cubic-bezier(.2,.7,.3,1);}
-.nav-bars i:first-child{top:0;}
-.nav-bars i:last-child{bottom:0;width:70%;}
-.nav-toggle[aria-expanded="true"] .nav-bars i:first-child{transform:translateY(6px) rotate(45deg);}
-.nav-toggle[aria-expanded="true"] .nav-bars i:last-child{width:100%;transform:translateY(-6px) rotate(-45deg);}
+/* Typographic mark: the word in the eyebrow spec, closed by the lime period that ends
+   the wordmark. Both words share one grid cell and right-align, so swapping
+   MENU -> CLOSE grows leftward and the header edge never shifts. The span is
+   aria-hidden (it holds both words); the button's aria-label carries the state. */
+.nav-toggle{display:none;align-items:center;justify-content:flex-end;min-height:44px;
+  background:transparent;border:0;padding:8px 0;cursor:pointer;color:var(--ink);
+  position:relative;z-index:70;}
+.nav-word{display:grid;}
+.nav-word .w{grid-area:1/1;justify-self:end;font-family:"Hanken Grotesk",sans-serif;font-style:normal;
+  font-size:0.72rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;white-space:nowrap;
+  transition:opacity .24s ease,transform .24s cubic-bezier(.2,.7,.3,1);}
+.nav-word .w i{font-style:normal;color:var(--accent);}
+.nav-word .w-close{opacity:0;transform:translateY(4px);}
+.nav-toggle[aria-expanded="true"] .nav-word .w-open{opacity:0;transform:translateY(-4px);}
+.nav-toggle[aria-expanded="true"] .nav-word .w-close{opacity:1;transform:none;}
 @media (max-width:859px){ .nav-toggle{display:inline-flex;} .nav > .btn.primary{display:none;} }
 
 .m-menu{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;
@@ -785,7 +791,7 @@ img.img-fade.loaded { opacity: 1; }
 .m-menu.open .m-link:nth-of-type(3){transition-delay:.20s}
 .m-menu.open .m-cta{transition-delay:.28s}
 @media (prefers-reduced-motion:reduce){
-  .nav-bars i{transition:none;}
+  .nav-word .w{transition:none;}
   .m-menu,.m-link,.m-cta{transition:opacity .01s linear!important;transform:none!important;}
 }
 </style>
@@ -822,7 +828,7 @@ img.img-fade.loaded { opacity: 1; }
     </ul>
     <a class="btn primary" href="https://calendly.com/hello-tacticalcommunicationswithin/30min" target="_blank" rel="noopener" data-calendly>Get started</a>
     <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
-      <span class="nav-bars" aria-hidden="true"><i></i><i></i></span>
+      <span class="nav-word" aria-hidden="true"><em class="w w-open">Menu<i>.</i></em><em class="w w-close">Close<i>.</i></em></span>
     </button>
   </nav>
 </header>
