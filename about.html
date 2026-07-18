@@ -414,7 +414,7 @@ header {
 @media (max-width: 859px) { .founder-side { order: -1; } }
 .founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
-.cred-block { margin-top: 26px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.cred-block { margin-top: 26px; border-top: 1px solid var(--line); }
 .cred { list-style: none; margin: 0; padding: 14px 0; }
 .cred li { display: flex; gap: 12px; padding: 6px 0; font-size: 0.97rem; align-items: baseline; color: var(--body); }
 .cred li::before { content: "■"; font-size: 0.6rem; color: var(--ink); }
@@ -427,7 +427,7 @@ header {
 .dark-section .cred-block { border-color: var(--line-dark); }
 .dark-section .cred li { color: var(--on-dark-mute); }
 .dark-section .cred li::before { color: var(--accent); }
-.dark-section .stat-rows { border-top-color: var(--line-dark); }
+.dark-section .stat-rows { border-color: var(--line-dark); }
 .dark-section .stat-row .num { color: var(--on-dark); }
 .dark-section .stat-row .lbl { color: var(--on-dark-mute); }
 .dark-section .founder-img { background: var(--dark-2); }
@@ -631,8 +631,9 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   margin-top: 24px;
-  padding: 18px 0 0;
+  padding: 18px 0;
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 .stat-row { display: block; }
 .stat-row .num {
