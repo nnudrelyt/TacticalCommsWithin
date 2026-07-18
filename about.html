@@ -410,6 +410,8 @@ header {
 .founder-grid { display: grid; gap: 36px; }
 @media (min-width: 860px) { .founder-grid { grid-template-columns: 6fr 4fr; align-items: start; } }
 .founder-side { align-self: start; }
+/* stacked: lead with the portrait + stats, then the story (desktop keeps text in col 1) */
+@media (max-width: 859px) { .founder-side { order: -1; } }
 .founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
 .founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
 .cred-block { margin-top: 26px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
