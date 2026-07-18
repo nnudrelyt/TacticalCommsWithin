@@ -212,11 +212,12 @@ header {
    keeps its own lime-dot treatment. */
 .nav-links a[aria-current] {
   color: var(--ink);
+  /* clean solid chartreuse underline — hairline weight so it marks without shouting */
   text-decoration-line: underline;
-  text-decoration-style: dashed;
+  text-decoration-style: solid;
   text-decoration-color: var(--accent);
   text-decoration-thickness: 1.5px;
-  text-underline-offset: 6px;
+  text-underline-offset: 10px;
 }
 .nav .btn { padding: 12px 22px; font-size: 0.85rem; }
 @media (min-width: 860px) { .nav-links { display: flex; } }

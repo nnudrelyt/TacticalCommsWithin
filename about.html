@@ -223,11 +223,12 @@ header {
    keeps its own lime-dot treatment. */
 .nav-links a[aria-current] {
   color: var(--ink);
+  /* clean solid chartreuse underline — hairline weight so it marks without shouting */
   text-decoration-line: underline;
-  text-decoration-style: dashed;
+  text-decoration-style: solid;
   text-decoration-color: var(--accent);
   text-decoration-thickness: 1.5px;
-  text-underline-offset: 6px;
+  text-underline-offset: 10px;
 }
 .nav .btn { padding: 12px 22px; font-size: 0.85rem; }
 @media (min-width: 860px) { .nav-links { display: flex; } }
@@ -425,8 +426,9 @@ header {
 /* This is the page's h1 semantically, but it keeps the h2 type scale: the section's
    line breaks, column ratios and the head/body gap are all tuned to that size, and the
    base h1 (clamp 2.9-6rem, no margin-bottom) would blow all three up. */
-.founder-head h1 { font-size: clamp(1.9rem, 4.2vw, 3rem); letter-spacing: -0.03em;
-  line-height: 1.04; margin-bottom: 14px; }
+/* type styling lifted from the homepage's "You deserve more" (.manifesto h2) */
+.founder-head h1 { font-size: clamp(2rem, 5vw, 3.4rem); letter-spacing: -0.03em;
+  line-height: 1.04; margin-bottom: 14px; color: #FFFFFF; }
 /* stacked: eyebrow + headline, then portrait + stats, then the story */
 @media (max-width: 859px) {
   .founder-head { order: 1; }
@@ -458,8 +460,10 @@ header {
      follows them in the column. Mobile keeps space-between, which fits its narrow width. */
   /* scoped through .founder-grid: the base .stat-rows rule is defined LATER in this
      sheet at equal specificity, so an unscoped override here would silently lose. */
+  /* margin trimmed 24 -> 8 so the space above the rule (22px) matches the 19px below it */
   .founder-grid .stat-rows { grid-column: 2; grid-row: 4; max-width: 62ch;
-    justify-content: space-between; column-gap: 24px; padding: 18px 0 0; border-bottom: 0; }
+    justify-content: space-between; column-gap: 24px; margin-top: 8px;
+    padding: 18px 0 0; border-bottom: 0; }
   /* labels run on one line here and the row spreads to the copy measure. No nowrap:
      below ~1024 there isn't room, and they wrap rather than overflow. */
   .founder-grid .stat-row .lbl { max-width: none; }
