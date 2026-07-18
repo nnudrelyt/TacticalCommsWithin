@@ -407,7 +407,8 @@ header {
 /* ============ FOUNDER ============ */
 .founder-grid { display: grid; gap: 36px; }
 @media (min-width: 860px) { .founder-grid { grid-template-columns: 4fr 7fr; align-items: center; } }
-.founder-img { min-height: 300px; }
+.founder-img { border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
+.founder-img img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; }
 .cred { list-style: none; margin-top: 20px; }
 .cred li { display: flex; gap: 12px; padding: 9px 0; font-size: 0.97rem; align-items: baseline; color: var(--body); }
 .cred li::before { content: "■"; font-size: 0.6rem; color: var(--ink); }
@@ -692,7 +693,6 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
   /* unpin the column — full-bleed content with fixed gutters (steps to 90px at 1920) */
   .wrap, .nav { max-width: none; padding-left: 72px; padding-right: 72px; }
   .hero-media { min-height: clamp(672px, 82vh, 1104px); }
-  .founder-img { min-height: 380px; }
   .drill-img { min-height: 290px; }
 }
 /* ============ XL — 1920px+ : full-width content column (~90px gutters), cinematic hero ============ */
@@ -727,7 +727,7 @@ footer.site .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-cont
 <section id="about" aria-labelledby="about-h">
   <div class="wrap">
     <div class="founder-grid">
-      <div class="ph founder-img">Photo placeholder — Kari teaching / whiteboard in front of a group (not a studio portrait)</div>
+      <div class="founder-img"><img src="images/about-kari-teaching.jpg" alt="Kari Pennington teaching a room of first responders, mid-gesture" width="900" height="1125" decoding="async"></div>
       <div>
         <span class="eyebrow">Who's teaching this</span>
         <h2 id="about-h">Built inside the academy. Not the studio.</h2>
