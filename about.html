@@ -318,7 +318,8 @@ header {
 /* ============ SPLIT headline / support columns ============ */
 .objection { background: var(--bg-2); }
 .objection-grid { display: grid; gap: 20px 72px; align-items: start; }
-@media (min-width: 860px) { .objection-grid { grid-template-columns: 5fr 6fr; } }
+/* same ratio as .founder-grid so the portrait and this paragraph share a left edge */
+@media (min-width: 860px) { .objection-grid { grid-template-columns: 6fr 5fr; } }
 .objection h2 { color: var(--ink); margin-bottom: 0; }
 .objection p { color: var(--body); }
 .objection p + p { margin-top: 18px; }
@@ -422,8 +423,12 @@ header {
   /* rows: auto 1fr — the portrait spans both rows and on wide viewports is taller than
      the text, so row 2 must absorb that surplus. With `auto auto` the browser splits it
      across both rows and opens a gap under the headline. */
-  .founder-grid { grid-template-columns: 6fr 4fr; grid-template-rows: auto 1fr;
-    align-items: start; column-gap: 36px; row-gap: 0; }
+  /* columns + gap match .objection-grid below, so the portrait's left edge lands on the
+     same vertical line as the philosophy paragraph. --stone side is capped at the
+     paragraph measure so widening the column doesn't balloon the portrait. */
+  .founder-grid { grid-template-columns: 6fr 5fr; grid-template-rows: auto 1fr;
+    align-items: start; column-gap: 72px; row-gap: 0; }
+  .founder-side { max-width: 62ch; }
   .founder-head { grid-column: 1; grid-row: 1; }
   .founder-body { grid-column: 1; grid-row: 2; }
   .founder-side { grid-column: 2; grid-row: 1 / span 2; }
